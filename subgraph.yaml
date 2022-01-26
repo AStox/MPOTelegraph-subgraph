@@ -1,0 +1,32 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MPOTelegraph
+    network: rinkeby
+    source:
+      address: "0x901016709c74E99E257233F29f088295B2776544"
+      abi: MPOTelegraph
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Mint
+        - Transfer
+      abis:
+        - name: MPOTelegraph
+          file: ./abis/MPOTelegraph.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Mint(indexed address,indexed uint256,indexed string)
+          handler: handleMint
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
