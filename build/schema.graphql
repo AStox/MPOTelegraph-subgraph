@@ -3,5 +3,5 @@ type Telegraph @entity {
   to: String
   from: String
   message: String
-  svg: String
+  image: String
 }

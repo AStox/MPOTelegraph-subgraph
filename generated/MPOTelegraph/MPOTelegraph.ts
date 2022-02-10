@@ -83,8 +83,8 @@ export class Mint__Params {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get text(): Bytes {
-    return this._event.parameters[2].value.toBytes();
+  get text(): string {
+    return this._event.parameters[2].value.toString();
   }
 }
 

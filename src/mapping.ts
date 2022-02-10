@@ -19,32 +19,26 @@ import { Telegraph } from "../generated/schema";
 // export { runTests } from "../tests/mint.test";
 
 export function handleMint(event: Mint): void {
-  // log.info("handleMint id: {}, from: {}, text: {}", [
-  //   event.params.tokenId.toString(),
-  //   event.params.from.toHexString(),
-  //   event.params.text.toString(),
-  // ]);
-  log.info("guff", []);
+  log.info("handleMint id: {}, from: {}, text: {}", [
+    event.params.tokenId.toString(),
+    event.params.from.toHexString(),
+    event.params.text.toString(),
+  ]);
   let telegraph = Telegraph.load(event.params.tokenId.toString());
   if (telegraph) {
-    log.info("hello", []);
     telegraph.from = event.params.from.toHexString();
-    // telegraph.message = event.params.text.toString();
-    log.info("goodbye", []);
+    telegraph.message = event.params.text.toString();
+    telegraph.image = "";
     telegraph.save();
-    log.info("bye", []);
   }
 }
 
 export function handleTransfer(event: Transfer): void {
-  log.info("okay {}", [BigInt.fromI32(23).toString()]);
-  // let id =
-  log.info("handleTransfer id: {}", [
+  log.info("handleTransfer id: {}, from: {}, to: {}", [
     event.params.tokenId.toString(),
-    // event.params.from.toHexString(),
-    // event.params.to.toHexString(),
+    event.params.from.toHexString(),
+    event.params.to.toHexString(),
   ]);
-  log.info("transfer", []);
   let telegraph = Telegraph.load(event.params.tokenId.toString());
   if (!telegraph) {
     telegraph = new Telegraph(event.params.tokenId.toString());
@@ -53,7 +47,7 @@ export function handleTransfer(event: Transfer): void {
   telegraph.save();
 }
 
-export function createNewMintEvent(id: i32, from: string, text: string): Mint {
+export function createNewMintEvent(from: string, id: i32, text: string): Mint {
   log.info("new MindEvent id: {}, from: {}, text: {}", [
     id.toString(),
     from,
@@ -77,19 +71,19 @@ export function createNewMintEvent(id: i32, from: string, text: string): Mint {
   );
   let textParam = new ethereum.EventParam(
     "text",
-    ethereum.Value.fromBytes(Bytes.fromUTF8(text))
+    ethereum.Value.fromString(text)
   );
-  newMintEvent.parameters.push(idParam);
   newMintEvent.parameters.push(fromParam);
+  newMintEvent.parameters.push(idParam);
   newMintEvent.parameters.push(textParam);
 
   return newMintEvent;
 }
 
 export function createNewTransferEvent(
-  id: i32,
   from: string,
-  to: string
+  to: string,
+  id: i32
 ): Transfer {
   log.info("new TransferEvent id: {}, from: {}, to: {}", [
     id.toString(),
@@ -108,39 +102,9 @@ export function createNewTransferEvent(
     ethereum.Value.fromAddress(Address.fromString(to))
   );
 
-  newTransferEvent.parameters.push(idParam);
   newTransferEvent.parameters.push(fromParam);
   newTransferEvent.parameters.push(toParam);
+  newTransferEvent.parameters.push(idParam);
 
   return newTransferEvent;
-}
-
-export function createNewGravatarEvent(
-  id: i32,
-  ownerAddress: string,
-  displayName: string,
-  imageUrl: string
-): NewGravatar {
-  let newGravatarEvent = changetype<NewGravatar>(newMockEvent());
-  newGravatarEvent.parameters = new Array();
-  let idParam = new ethereum.EventParam("id", ethereum.Value.fromI32(id));
-  let addressParam = new ethereum.EventParam(
-    "ownderAddress",
-    ethereum.Value.fromAddress(Address.fromString(ownerAddress))
-  );
-  let displayNameParam = new ethereum.EventParam(
-    "displayName",
-    ethereum.Value.fromString(displayName)
-  );
-  let imageUrlParam = new ethereum.EventParam(
-    "imageUrl",
-    ethereum.Value.fromString(imageUrl)
-  );
-
-  newGravatarEvent.parameters.push(idParam);
-  newGravatarEvent.parameters.push(addressParam);
-  newGravatarEvent.parameters.push(displayNameParam);
-  newGravatarEvent.parameters.push(imageUrlParam);
-
-  return newGravatarEvent;
 }

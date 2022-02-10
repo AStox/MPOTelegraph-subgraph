@@ -26,7 +26,7 @@ dataSources:
           handler: handleApproval
         - event: ApprovalForAll(indexed address,indexed address,bool)
           handler: handleApprovalForAll
-        - event: Mint(indexed address,indexed uint256,indexed string)
+        - event: Mint(indexed address,indexed uint256,string)
           handler: handleMint
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer

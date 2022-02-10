@@ -94,8 +94,8 @@ export class Telegraph extends Entity {
     }
   }
 
-  get svg(): string | null {
-    let value = this.get("svg");
+  get image(): string | null {
+    let value = this.get("image");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -103,11 +103,11 @@ export class Telegraph extends Entity {
     }
   }
 
-  set svg(value: string | null) {
+  set image(value: string | null) {
     if (!value) {
-      this.unset("svg");
+      this.unset("image");
     } else {
-      this.set("svg", Value.fromString(<string>value));
+      this.set("image", Value.fromString(<string>value));
     }
   }
 }
