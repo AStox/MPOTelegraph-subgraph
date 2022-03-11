@@ -15,6 +15,7 @@ import {
   Transfer,
 } from "../generated/MPOTelegraph/MPOTelegraph";
 import { Telegraph } from "../generated/schema";
+import generateSVG from "./utils/svgGenerator";
 
 // export { runTests } from "../tests/mint.test";
 
@@ -28,7 +29,13 @@ export function handleMint(event: Mint): void {
   if (telegraph) {
     telegraph.from = event.params.from.toHexString();
     telegraph.message = event.params.text.toString();
-    telegraph.image = "";
+    telegraph.image = generateSVG(
+      event.params.tokenId.toString(),
+      telegraph.to as string,
+      event.params.from.toHexString(),
+      event.params.text.toString(),
+      event.block.number
+    );
     telegraph.save();
   }
 }
