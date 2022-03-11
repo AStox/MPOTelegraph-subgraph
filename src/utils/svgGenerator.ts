@@ -13,13 +13,12 @@ let generateSVG = (
 
   let lines = `${msg}</tspan></tspan><tspan x="0" dy="20"><tspan class="muted">></tspan><tspan></tspan></tspan><tspan x="0" dy="20"><tspan class="muted">></tspan><tspan></tspan></tspan><tspan x="0" dy="20"><tspan class="muted">></tspan><tspan>`;
   let b64 = encode(
-    `${start}${middle}${lines}</tspan></tspan></text><g transform="translate(0,119)"><text class="text fineprint" x="0" y="0">FOR ONE FREE RESPONSE TO THIS TELEGRAM, VISIT THE METAVERAL POST OFFICE OR</text><text class="text fineprint" x="0" y="6">WWW.METAVERSALPOST.IO WITH THE WALLET OWNING THIS NON-FUNGIBLE TELEGRAM.</text></g></g></g></g></g><defs><path id="stamp" fill="none" d="M 0,25 A 25 25 0 1 0 0,24.99 z" /><filter id="f2" x="-0.1" y="-0.1" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="0" dy="0" /><feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" /></filter></defs></svg> `
+    `${start}${middle}${lines}</tspan></tspan></text><g transform="translate(0,119)"><text class="text fineprint" x="0" y="0">FOR ONE FREE RESPONSE TO THIS TELEGRAM, VISIT THE METAVERAL POST OFFICE OR</text><text class="text fineprint" x="0" y="6">WWW.METAVERSALPOST.IO WITH THE WALLET OWNING THIS NON-FUNGIBLE TELEGRAM.</text></g></g></g></g></g><defs><path id="stamp" fill="none" d="M 0,25 A 25 25 0 1 0 0,24.99 z" /><filter id="f2" x="-0.1" y="-0.1" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="0" dy="0" /><feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" /></filter></defs></svg>`
   );
   return "data:image/svg+xml;base64,".concat(b64);
 };
 
 function encode(input: string): string {
-  log.info("1", []);
   let output = "";
   let chr1: number,
     chr2: number,
@@ -30,45 +29,39 @@ function encode(input: string): string {
     enc4: i32;
   let i = 0;
 
-  log.info("aaaaaa", []);
+  const mod = input.length % 3;
+  if (mod != 0) {
+    for (let i = 0; i < 3 - mod; i++) {
+      input = input.concat(" ");
+      log.info("length: {}", [input.length.toString()]);
+    }
+  }
   input = _utf8_encode(input);
   while (i < input.length) {
-    log.info("a", []);
     chr1 = input.charCodeAt(i++);
     chr2 = input.charCodeAt(i++);
     chr3 = input.charCodeAt(i++);
-    log.info("b", []);
     enc1 = i32(chr1 as i32) >> (2 as i32);
     enc2 = i32((chr1 as i32 & 3) << 4) | ((chr2 as i32) >> 4);
     enc3 = i32((chr2 as i32 & 15) << 2) | ((chr3 as i32) >> 6);
     enc4 = i32(chr3 as i32 & 63);
-    log.info("c", []);
 
-    if (isNaN(chr2)) {
+    if (isNaN(chr1)) {
+      enc1 = enc2 = enc3 = 64;
+    } else if (isNaN(chr2)) {
       enc3 = enc4 = 64;
     } else if (isNaN(chr3)) {
       enc4 = 64;
     }
-    log.info("heres {}", [_keyStr]);
-    log.info("enc1s: {}, enc2: {}, enc3: {}, enc4: {}", [
-      i32(enc1).toString(),
-      enc2.toString(),
-      enc3.toString(),
-      enc4.toString(),
-    ]);
-    log.info("1: {}", [_keyStr.charAt(i32(enc1))]);
-    log.info("2: {}", [_keyStr.charAt(enc2 as i32)]);
-    log.info("3: {}", [_keyStr.charAt(enc3 as i32)]);
-    log.info("4: {}", [_keyStr.charAt(enc4 as i32)]);
     output =
       output +
       _keyStr.charAt(enc1 as i32) +
       _keyStr.charAt(enc2 as i32) +
       _keyStr.charAt(enc3 as i32) +
       _keyStr.charAt(enc4 as i32);
-    log.info("e", []);
   }
-
+  log.info("length: {}", [input.length.toString()]);
+  log.info("output: {}", [output]);
   return output;
 }
 

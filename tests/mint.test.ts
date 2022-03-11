@@ -46,8 +46,8 @@ test("Can call mappings with custom events", () => {
   //     "Telegraph",
   //     "934984",
   //     "to",
-  //     "0x225ef95fa90f4F7938A5b34234d14768cB4263dd"
-  //   );
+  //     "0x225ef95fa90f4F7938A5b34234d14768cB
+  // );
 
   assert.fieldEquals("Telegraph", "2349076", "message", "Goodbye world!");
 
