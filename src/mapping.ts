@@ -27,6 +27,9 @@ export function handleMint(event: Mint): void {
   ]);
   let telegraph = Telegraph.load(event.params.tokenId.toString());
   if (telegraph) {
+    telegraph.name = "Multiversal Post Office Telegraph";
+    telegraph.description =
+      "An NFT messenger. Send a telegraph straight to any wallet.";
     telegraph.from = event.params.from.toHexString();
     telegraph.message = event.params.text.toString();
     telegraph.image = generateSVG(

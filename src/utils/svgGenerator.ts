@@ -29,28 +29,59 @@ function encode(input: string): string {
     enc4: i32;
   let i = 0;
 
-  const mod = input.length % 3;
+  let mod = input.length % 3;
+  log.info("mod before: {}", [mod.toString()]);
   if (mod != 0) {
     for (let i = 0; i < 3 - mod; i++) {
       input = input.concat(" ");
       log.info("length: {}", [input.length.toString()]);
     }
   }
+  mod = input.length % 3;
+  log.info("mod after: {}", [mod.toString()]);
   input = _utf8_encode(input);
+  mod = input.length % 3;
+  log.info("mod after after: {}", [mod.toString()]);
   while (i < input.length) {
+    let letter1 = input[i];
     chr1 = input.charCodeAt(i++);
+    let letter2 = input[i];
     chr2 = input.charCodeAt(i++);
+    let letter3 = input[i];
     chr3 = input.charCodeAt(i++);
     enc1 = i32(chr1 as i32) >> (2 as i32);
     enc2 = i32((chr1 as i32 & 3) << 4) | ((chr2 as i32) >> 4);
     enc3 = i32((chr2 as i32 & 15) << 2) | ((chr3 as i32) >> 6);
     enc4 = i32(chr3 as i32 & 63);
 
-    if (isNaN(chr1)) {
-      enc1 = enc2 = enc3 = 64;
-    } else if (isNaN(chr2)) {
+    if (i >= input.length) {
+      log.info("letter1: {}, letter2: {}, letter3: {}", [
+        letter1.toString(),
+        letter2.toString(),
+        letter3.toString(),
+      ]);
+      log.info("chr1: {}, chr2: {}, chr3: {}", [
+        chr1.toString(),
+        chr2.toString(),
+        chr3.toString(),
+      ]);
+      log.info("enc1: {}, enc2: {}, enc3: {}, enc4: {}", [
+        enc1.toString(),
+        enc2.toString(),
+        enc3.toString(),
+        enc4.toString(),
+      ]);
+      log.info("key1: {}, key2: {}, key3: {}, key4: {}", [
+        _keyStr.charAt(enc1 as i32).toString(),
+        _keyStr.charAt(enc2 as i32).toString(),
+        _keyStr.charAt(enc3 as i32).toString(),
+        _keyStr.charAt(enc4 as i32).toString(),
+      ]);
+    }
+
+    if (chr2 < 0) {
       enc3 = enc4 = 64;
-    } else if (isNaN(chr3)) {
+    } else if (chr3 < 0) {
       enc4 = 64;
     }
     output =

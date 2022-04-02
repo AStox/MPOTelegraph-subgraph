@@ -1,7 +1,9 @@
 type Telegraph @entity {
   id: ID!
+  name: String
+  description: String
+  image: String
   to: String
   from: String
   message: String
-  image: String
 }
