@@ -37,7 +37,8 @@ export function handleMint(event: Mint): void {
       telegraph.to as string,
       event.params.from.toHexString(),
       event.params.text.toString(),
-      event.block.number
+      event.block.number,
+      event.block.hash
     );
     telegraph.save();
   }
