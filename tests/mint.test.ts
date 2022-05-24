@@ -45,7 +45,7 @@ test("Can call mappings with custom events", () => {
     16268249
   );
   let mint3_message =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.1111";
+    "<3";
   let mint3 = createNewMintEvent(
     "0x225ef95fa90f4F7938A5b34234d14768cB4263dd",
     16268249,

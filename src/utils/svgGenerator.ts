@@ -27,6 +27,15 @@ let generateSVG = (
   return "data:image/svg+xml;base64,".concat(b64);
 };
 
+function escapeHtml(unsafe: string): string{
+  return unsafe
+    .replace('&', "&amp;")
+    .replace('<', "&lt;")
+    .replace('>', "&gt;")
+    .replace('"', "&quot;")
+    .replace("'", "&#039;");
+ }
+
 function parseMessage(message: string): string {
   const charPerLine = 30.0;
   log.info("messageLength: {}", [message.length.toString()])
@@ -37,7 +46,7 @@ function parseMessage(message: string): string {
   for (let i = 0; i < numLines; i++) {
     let lineMsg = message.slice(i * i32(charPerLine), ((i+1) * i32(charPerLine)));
     log.info("lineMsg: {}", [lineMsg])
-    let line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${lineMsg}`;
+    let line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${escapeHtml(lineMsg)}`;
     line = i === numLines-1 ? line : line+"</tspan></tspan>"
     lines = `${lines}${line}`;
   }
