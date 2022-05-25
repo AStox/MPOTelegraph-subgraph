@@ -39,18 +39,43 @@ function escapeHtml(unsafe: string): string{
 function parseMessage(message: string): string {
   const charPerLine = 30.0;
   log.info("messageLength: {}", [message.length.toString()])
+  log.info("message: {}", [message])
   log.info("div: {}", [(message.length/charPerLine).toString()])
   const numLines = 4;
   log.info("numLines: {}", [numLines.toString()])
   let lines = ""
-  for (let i = 0; i < numLines; i++) {
-    let lineMsg = message.slice(i * i32(charPerLine), ((i+1) * i32(charPerLine)));
-    log.info("lineMsg: {}", [lineMsg])
-    let line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${escapeHtml(lineMsg)}`;
-    line = i === numLines-1 ? line : line+"</tspan></tspan>"
-    lines = `${lines}${line}`;
+
+
+  let linebreaks = message.split("\n")
+  for(let i = 0; i < linebreaks.length; i++) {
+    log.info("linebreak: {}", [linebreaks[i]])
+    log.info("linebreak length: {}", [linebreaks[i].length.toString()])
+      if (linebreaks[i].length <= charPerLine) {
+        let lineMsg = linebreaks[i].slice(0, i32(charPerLine));
+        log.info("lineMsg: {}", [lineMsg])
+        let line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${escapeHtml(lineMsg)}`;
+        line = i === numLines-1 ? line : line+"</tspan></tspan>"
+        lines = `${lines}${line}`;  
+      } else {
+        let lineMsg = linebreaks[i].slice(i * i32(charPerLine), ((i+1) * i32(charPerLine)));
+        log.info("lineMsg: {}", [lineMsg])
+        let line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${escapeHtml(lineMsg)}`;
+        line = i === numLines-1 ? line : line+"</tspan></tspan>"
+        lines = `${lines}${line}`;
+        lineMsg = linebreaks[i].slice(i+1 * i32(charPerLine), ((i+2) * i32(charPerLine)));
+        log.info("lineMsg: {}", [lineMsg])
+        line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${escapeHtml(lineMsg)}`;
+        line = i === numLines-1 ? line : line+"</tspan></tspan>"
+        lines = `${lines}${line}`;
+      }
   }
-  return lines
+  //   let lineMsg = message.slice(i * i32(charPerLine), ((i+1) * i32(charPerLine)));
+    // log.info("lineMsg: {}", [lineMsg])
+  //   let line = `<tspan x="0" dy="20"><tspan class="muted">></tspan><tspan x="15">${escapeHtml(lineMsg)}`;
+  //   line = i === numLines-1 ? line : line+"</tspan></tspan>"
+  //   lines = `${lines}${line}`;
+  // }
+  return lines;
 }
 
 function padId(id: string):string {
