@@ -6,9 +6,9 @@ dataSources:
     name: MPOTelegraph
     network: rinkeby
     source:
-      address: "0x9043343c9805824E4aC7Da587C846abc88FB72ED"
+      address: "0x3d7e5ee442051b6b4536ee09613cc913b4cfc943"
       abi: MPOTelegraph
-      startBlock: 10342263
+      startBlock: 10899011
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
