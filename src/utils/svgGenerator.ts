@@ -20,7 +20,7 @@ let generateSVG = (
   let lines = parseMessage(msg);
   log.info("Lines1: {}", [lines]);
   let b64 = encode(
-    `${start}${middle}${lines}</text><g transform="translate(0,119)"><text class="text fineprint" x="0" y="0">FOR ONE FREE RESPONSE TO THIS TELEGRAM, VISIT THE METAVERAL POST OFFICE OR</text><text class="text fineprint" x="0" y="6">WWW.METAVERSALPOST.IO WITH THE WALLET OWNING THIS NON-FUNGIBLE TELEGRAM.</text></g></g></g></g></g><defs><path id="stamp" fill="none" d="M 0,25 A 25 25 0 1 0 0,24.99 z" /><filter id="f2" x="-0.1" y="-0.1" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="0" dy="0" /><feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" /></filter></defs></svg>`
+    `${start}${middle}${lines}</text><g transform="translate(0,119)"><text class="text fineprint" x="0" y="0">FOR ONE FREE RESPONSE TO THIS TELEGRAM, VISIT THE METAVERAL POST OFFICE AT</text><text class="text fineprint" x="0" y="6">METAVERSALPOSTOFFICE.XYZ WITH THE WALLET HOLDING THIS NON-FUNGIBLE TELEGRAM.</text></g></g></g></g></g><defs><path id="stamp" fill="none" d="M 0,25 A 25 25 0 1 0 0,24.99 z" /><filter id="f2" x="-0.1" y="-0.1" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="0" dy="0" /><feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" /><feBlend in="SourceGraphic" in2="blurOut" mode="normal" /></filter></defs></svg>`
   );
   log.info("image: {}", ["data:image/svg+xml;base64,".concat(b64)]);
   return "data:image/svg+xml;base64,".concat(b64);

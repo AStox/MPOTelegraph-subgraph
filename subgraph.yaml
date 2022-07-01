@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: MPOTelegraph
-    network: rinkeby
+    network: mainnet
     source:
       address: "0x3d7e5ee442051b6b4536ee09613cc913b4cfc943"
       abi: MPOTelegraph
-      startBlock: 10899011
+      startBlock: 15027030
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
